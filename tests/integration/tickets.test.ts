@@ -7,6 +7,7 @@ import * as jwt from "jsonwebtoken";
 import supertest from "supertest";
 import { createEnrollmentWithAddress, createUser, createTicketType, createTicket } from "../factories";
 import { cleanDb, generateValidToken } from "../helpers";
+import redis from '../../src/config/redis';
 
 beforeAll(async () => {
   await init();
@@ -14,6 +15,7 @@ beforeAll(async () => {
 
 beforeEach(async () => {
   await cleanDb();
+  await redis.flushAll();
 });
 
 const server = supertest(app);

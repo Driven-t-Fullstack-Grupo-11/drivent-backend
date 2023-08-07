@@ -1,9 +1,14 @@
 import app, { init } from "@/app";
 import httpStatus from "http-status";
 import supertest from "supertest";
+import redis from '../../src/config/redis';
 
 beforeAll(async () => {
   await init();
+});
+
+beforeEach(async () => {
+  await redis.flushAll();
 });
 
 const server = supertest(app);
