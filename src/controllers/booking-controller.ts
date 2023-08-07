@@ -68,3 +68,23 @@ export async function changeBooking(req: AuthenticatedRequest, res: Response) {
   }
 }
 
+export async function getBookingbyRoomId(req: AuthenticatedRequest, res: Response){
+  const roomId = Number(req.params.roomId);
+
+  const { userId } = req;
+
+  if (!roomId) {
+    return res.sendStatus(httpStatus.BAD_REQUEST);
+  }
+
+  try {
+    const bookings = await bookingService.getBookingbyRoomId(roomId);
+    return res.status(httpStatus.OK).send(bookings);
+
+  } catch (error) {
+    if (error.name === "CannotBookingError") {
+      return res.sendStatus(httpStatus.FORBIDDEN);
+    }
+    return res.sendStatus(httpStatus.NOT_FOUND);
+  }
+}
