@@ -16,6 +16,8 @@ async function listHotels(userId: number) {
   if (!ticket || ticket.status === "RESERVED" || ticket.TicketType.isRemote || !ticket.TicketType.includesHotel) {
     throw cannotListHotelsError();
   }
+
+  return true;
 }
 
 async function getHotels(userId: number) {
@@ -38,6 +40,7 @@ async function getHotelsWithRooms(userId: number, hotelId: number) {
 const hotelService = {
   getHotels,
   getHotelsWithRooms,
+  listHotels
 };
 
 export default hotelService;
