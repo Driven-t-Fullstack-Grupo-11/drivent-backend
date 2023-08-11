@@ -42,7 +42,7 @@ module.exports = {
       {
         "type": "config",
         "pattern": "src/config",
-      } 
+      }
     ]
   },
   rules: {
@@ -95,7 +95,7 @@ module.exports = {
         },
         {
           "from": ["services"],
-          "allow": ["repositories"],
+          "allow": ["repositories", "config"],
         },
         {
           "from": ["routers"],
