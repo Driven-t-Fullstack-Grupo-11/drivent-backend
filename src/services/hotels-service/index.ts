@@ -14,24 +14,26 @@ async function listHotels(userId: number) {
   //Tem ticket pago isOnline false e includesHotel true
   const ticket = await ticketRepository.findTicketByEnrollmentId(enrollment.id);
 
-  if (!ticket || ticket.status === 'RESERVED' || ticket.TicketType.isRemote || !ticket.TicketType.includesHotel) {
+  if (!ticket || !ticket.TicketType.includesHotel ||  ticket.status === 'RESERVED' || ticket.TicketType.isRemote) {
     throw cannotListHotelsError();
   }
+
+  return true;
 }
 
 async function getHotels(userId: number) {
   await listHotels(userId);
 
-  const hotelCacheKey = `Hotels`;
+ // const hotelCacheKey = `Hotels`;
 
-  const cachedHotels = await redis.get(hotelCacheKey);
+ // const cachedHotels = await redis.get(hotelCacheKey);
 
-  if (cachedHotels) return JSON.parse(cachedHotels);
-  else {
+  // if (cachedHotels) return JSON.parse(cachedHotels);
+ // else {
     const hotels = await hotelRepository.findHotels();
-    await redis.setEx(hotelCacheKey, 10000, JSON.stringify(hotels));
+   // await redis.setEx(hotelCacheKey, 10000, JSON.stringify(hotels));
     return hotels;
-  }
+ // }
 }
 
 async function getHotelsWithRooms(userId: number, hotelId: number) {
@@ -47,6 +49,7 @@ async function getHotelsWithRooms(userId: number, hotelId: number) {
 const hotelService = {
   getHotels,
   getHotelsWithRooms,
+  listHotels
 };
 
 export default hotelService;
