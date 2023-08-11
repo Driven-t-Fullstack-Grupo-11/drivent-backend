@@ -1,5 +1,5 @@
-import { createClient } from 'redis';
-import dotenv from "dotenv"
+import { createClient } from "redis";
+import dotenv from "dotenv";
 
 dotenv.config();
 
@@ -8,7 +8,7 @@ const redis = createClient({
 });
 
 (async () => {
-  console.log('connection redis...');
+  console.log("connection redis...");
   await redis.connect();
 })();
 

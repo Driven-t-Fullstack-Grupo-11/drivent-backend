@@ -5,6 +5,7 @@ import enrollmentRepository from "@/repositories/enrollment-repository";
 
 async function verifyTicketAndEnrollment(ticketId: number, userId: number) {
   const ticket = await ticketRepository.findTickeyById(ticketId);
+  console.log(ticket);
 
   if (!ticket) {
     throw notFoundError();
@@ -28,7 +29,7 @@ async function getPaymentByTicketId(userId: number, ticketId: number) {
 }
 
 async function paymentProcess(ticketId: number, userId: number, cardData: CardPaymentParams) {
-  await verifyTicketAndEnrollment(ticketId, userId);
+  const lol = await verifyTicketAndEnrollment(ticketId, userId);
 
   const ticket = await ticketRepository.findTickeWithTypeById(ticketId);
 
