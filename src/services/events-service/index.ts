@@ -4,21 +4,26 @@ import { exclude } from '@/utils/prisma-utils';
 import { Event } from '@prisma/client';
 import dayjs from 'dayjs';
 import redis from '../../config/redis';
+import enrollmentRepository from '../../repositories/enrollment-repository';
+import ticketRepository from '../../repositories/ticket-repository';
+import { cannotListHotelsError } from '../../errors/cannot-list-hotels-error';
+import { cannotListEventError } from '../../errors/cannot-list-events';
+
 
 async function getFirstEvent(): Promise<GetFirstEventResult> {
-  const eventCacheKey = `Event`;
+ // const eventCacheKey = `Event`;
 
-  const cachedEvent = await redis.get(eventCacheKey);
+  //const cachedEvent = await redis.get(eventCacheKey);
 
-  if (cachedEvent) return JSON.parse(cachedEvent);
-  else {
+ // if (cachedEvent) return JSON.parse(cachedEvent);
+ // else {
     const event = await eventRepository.findFirst();
     if (!event) throw notFoundError();
 
-    await redis.setEx(eventCacheKey, 10000, JSON.stringify(event));
+  //  await redis.setEx(eventCacheKey, 10000, JSON.stringify(event));
 
     return exclude(event, 'createdAt', 'updatedAt');
-  }
+  //}
 }
 
 export type GetFirstEventResult = Omit<Event, 'createdAt' | 'updatedAt'>;

@@ -31,14 +31,28 @@ model Session {
 }
 
 model Event {
-  id                 Int      @id @default(autoincrement())
-  title              String   @db.VarChar(255)
-  backgroundImageUrl String   @db.VarChar(255)
-  logoImageUrl       String   @db.VarChar(255)
+  id                 Int          @id @default(autoincrement())
+  title              String       @db.VarChar(255)
+  backgroundImageUrl String       @db.VarChar(255)
+  logoImageUrl       String       @db.VarChar(255)
   startsAt           DateTime
   endsAt             DateTime
-  createdAt          DateTime @default(now())
-  updatedAt          DateTime @updatedAt
+  createdAt          DateTime     @default(now())
+  updatedAt          DateTime     @updatedAt
+  Activities         Activities[]
+}
+
+model Activities {
+  id        Int      @id @default(autoincrement())
+  name      String
+  date      DateTime
+  local     String
+  timeStart DateTime
+  timeEnds  DateTime
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  eventId   Int
+  event     Event    @relation(fields: [eventId], references: [id])
 }
 
 model Enrollment {
@@ -115,7 +129,7 @@ model Hotel {
   image     String
   Rooms     Room[]
   createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt 
+  updatedAt DateTime @updatedAt
 }
 
 model Room {
