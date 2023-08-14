@@ -28,7 +28,7 @@ export async function getProfileFromGithub(req: Request, res: Response) {
   const password = user.id;
 
   if(!checkUser) {
-    const createdUser = await userService.createUser({
+      await userService.createUser({
       email: email,
       password: password,
     })
